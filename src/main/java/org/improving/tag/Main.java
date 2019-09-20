@@ -1,12 +1,16 @@
 package org.improving.tag;
 
+import org.improving.tag.commands.*;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Start of Main");
-        Game game = new Game();
-        System.out.println("Declared game");
+
+        AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext(SpringContext.class);
+
+        Game game = context.getBean(Game.class);
         game.run();
-        System.out.println("After run()");
 
         long elapsedTicks = game.getEndTime().getTime() -
                 game.getStartTime().getTime();
