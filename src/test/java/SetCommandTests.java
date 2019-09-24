@@ -1,10 +1,16 @@
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import org.improving.tag.Game;
-import org.improving.tag.commands.DanceCommand;
+import org.improving.tag.Player;
 import org.improving.tag.commands.SetCommand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class SetCommandTests {
     SetCommand target;
@@ -17,7 +23,7 @@ public class SetCommandTests {
         // Arrange
         io = new TestInputOutput();
         target = new SetCommand(io);
-        game = new Game(null, io);
+        game = mock(Game.class);
     }
 
     @Test
@@ -31,10 +37,18 @@ public class SetCommandTests {
 
     @Test
     public void execute_should_set_name() {
+        Player player = new Player();
+        player.setName("hi");
+        player.setHitPoints(50);
+        player = spy(player);
+
+        when(game.getPlayer()).thenReturn(player);
+
         // Act
-        target.execute(goodInput, game);
+        target.execute("@set name=Fluefedor", game);
 
         // Assert
-        assertEquals("Your name is now Fluefedor.", io.lastText);
+        verify(player).setName(anyString());
+        verify(game, times(2)).getPlayer();
     }
 }
