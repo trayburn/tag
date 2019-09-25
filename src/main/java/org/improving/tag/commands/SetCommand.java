@@ -21,8 +21,9 @@ public class SetCommand implements Command {
 
     @Override
     public void execute(String input, Game game) {
+        var player = game.getPlayer();
         var name = input.split("=")[1].trim();
-        game.getPlayer().setName(name);
-        io.displayText("Your name is now " + game.getPlayer().getName() + ".");
+        player.setName(name);
+        io.displayText("Your name is now " + player.getName() + ".");
     }
 }

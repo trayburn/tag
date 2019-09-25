@@ -37,7 +37,7 @@ public class SetCommandTests {
 
     @Test
     public void execute_should_set_name() {
-        Player player = new Player();
+        Player player = new Player(null);
         player.setName("hi");
         player.setHitPoints(50);
         player = spy(player);
@@ -48,7 +48,6 @@ public class SetCommandTests {
         target.execute("@set name=Fluefedor", game);
 
         // Assert
-        verify(player).setName(anyString());
-        verify(game, times(2)).getPlayer();
+        verify(player).setName("Fluefedor");
     }
 }
