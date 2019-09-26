@@ -1,6 +1,5 @@
 package org.improving.tag;
 
-import org.improving.tag.commands.*;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {

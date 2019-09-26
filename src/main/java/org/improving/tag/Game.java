@@ -1,11 +1,11 @@
 package org.improving.tag;
 
-import org.improving.tag.commands.*;
-import org.springframework.stereotype.Component;
-
-import java.nio.file.FileSystem;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Scanner;
+import java.util.List;
+
+import org.improving.tag.commands.Command;
+import org.springframework.stereotype.Component;
 
 @Component
 public class Game {
@@ -15,6 +15,7 @@ public class Game {
     private InputOutput io;
     private Player p;
     private Location startingLocation;
+    private List<Location> locationList = new ArrayList<>();
     private final SaveGameFactory saveFactory;
 
     public Game(Command[] commands, InputOutput io, SaveGameFactory saveFactory) {
@@ -83,40 +84,51 @@ public class Game {
     private Location buildWorld() {
         var tdh = new Location();
         tdh.setName("The Deathly Hallows");
+        this.locationList.add(tdh);
 
         var td = new Location();
         td.setName("The Dessert");
+        this.locationList.add(td);
 
         var ta = new Location();
         ta.setName("The Amazon");
+        this.locationList.add(ta);
 
         var tmcs = new Location();
         tmcs.setName("The Mac and Cheese Shop");
+        this.locationList.add(tmcs);
 
         var tr = new Location();
         tr.setName("The Reef");
+        this.locationList.add(tr);
 
         var tm = new Location();
         tm.setName("The Mall");
+        this.locationList.add(tm);
 
         var tvm = new Location();
         tvm.setName("The Velvet Moose");
+        this.locationList.add(tvm);
 
         var md = new Location();
         md.setName("Mount Doom");
+        this.locationList.add(md);
 
         var tvd = new Location();
         tvd.setName("The Volcano of Death");
+        this.locationList.add(tvd);
 
         var tap = new Location();
         tap.setName("The Airport");
+        this.locationList.add(tap);
 
         var aict = new Location();
         aict.setName("An Ice Cream Truck");
+        this.locationList.add(aict);
 
         var tms = new Location();
         tms.setName("The Mountains");
-
+        this.locationList.add(tms);
 
         //initializing all the exits
         tdh.getExits().add(new Exit("Heaven Avenue", tmcs, "h", "ave", "heaven", "ha"));
@@ -154,7 +166,17 @@ public class Game {
         tvm.getExits().add(new Exit("The Front Door", ta, "TFD", "F", "D", "FD", "front", "door"));
         tvm.getExits().add(new Exit("The Pudding Slide", tap, "TPS", "P", "S", "PS", "Pudding", "Slide"));
 
+
         return tdh;
     }
 
+    public Location getLocationOf(final String intendedLocationName) {
+        for (Location location: locationList) {
+            if (intendedLocationName.equalsIgnoreCase(location.getName())) {
+                return location;
+            }
+        }
+
+        return null;
+    }
 }
