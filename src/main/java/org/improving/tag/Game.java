@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 public class Game {
     private Date startTime;
     private Date endTime;
-    private Command[] commands;
-    private InputOutput io;
-    private Player p;
-    private Location startingLocation;
-    private List<Location> locationList = new ArrayList<>();
+    private final Command[] commands;
+    private final InputOutput io;
+    private final Player p;
+    private final Location startingLocation;
+    private final List<Location> locationList = new ArrayList<>();
     private final SaveGameFactory saveFactory;
 
     public Game(Command[] commands, InputOutput io, SaveGameFactory saveFactory) {
@@ -85,6 +85,10 @@ public class Game {
         var tdh = new Location();
         tdh.setName("The Deathly Hallows");
         this.locationList.add(tdh);
+        var adv = new Adversary();
+        adv.setName("Sauron");
+        adv.setHitPoints(300);
+        tdh.setAdversary(adv);
 
         var td = new Location();
         td.setName("The Dessert");
