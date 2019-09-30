@@ -8,7 +8,7 @@ import org.improving.tag.Game;
 import org.improving.tag.InputOutput;
 
 public abstract class BaseAliasedCommand implements Command {
-    private final InputOutput io;
+    protected final InputOutput io;
     private List<String> aliases = new ArrayList<>();
 
     public BaseAliasedCommand(InputOutput io, String...aliases) {
@@ -18,9 +18,13 @@ public abstract class BaseAliasedCommand implements Command {
 
     @Override
     public boolean isValid(String input, Game game) {
-        var trimmedInput = getCommandPart(input).trim();
-        return aliases.stream()
-                .anyMatch(trimmedInput::equalsIgnoreCase);
+        try {
+            var trimmedInput = getCommandPart(input).trim();
+            return aliases.stream()
+                    .anyMatch(trimmedInput::equalsIgnoreCase);
+        } catch (UnsupportedOperationException ex) {
+            return false;
+        }
     }
 
     public void childExecute(String input, Game game) { }

@@ -65,7 +65,7 @@ public class Game {
                 } else {
                     io.displayText("Huh? I don't understand.");
                 }
-            } catch (RuntimeException ex) {
+            } catch (GameExitException ex) {
                 loop = false;
             }
         }
