@@ -55,18 +55,18 @@ public class Game {
 
         boolean loop = true;
         while (loop) {
-            io.displayPrompt("> ");
-            String input = io.receiveInput();
+            try {
+                io.displayPrompt("> ");
+                String input = io.receiveInput();
 
-            Command validCommand = getValidCommand(input);
-            if (null != validCommand) {
-                validCommand.execute(input, this);
-            } else if (input.equalsIgnoreCase("exit")) {
-                saveFactory.save(this);
-                io.displayText("Goodbye.");
+                Command validCommand = getValidCommand(input);
+                if (null != validCommand) {
+                    validCommand.execute(input, this);
+                } else {
+                    io.displayText("Huh? I don't understand.");
+                }
+            } catch (RuntimeException ex) {
                 loop = false;
-            } else {
-                io.displayText("Huh? I don't understand.");
             }
         }
         this.setEndTime(new Date());
@@ -88,7 +88,7 @@ public class Game {
         var adv = new Adversary();
         adv.setName("Sauron");
         adv.setHitPoints(300);
-        tdh.setAdversary(adv);
+
 
         var td = new Location();
         td.setName("The Dessert");
@@ -117,6 +117,7 @@ public class Game {
         var md = new Location();
         md.setName("Mount Doom");
         this.locationList.add(md);
+        md.setAdversary(adv);
 
         var tvd = new Location();
         tvd.setName("The Volcano of Death");
@@ -175,7 +176,7 @@ public class Game {
     }
 
     public Location getLocationOf(final String intendedLocationName) {
-        for (Location location: locationList) {
+        for (Location location : locationList) {
             if (intendedLocationName.equalsIgnoreCase(location.getName())) {
                 return location;
             }

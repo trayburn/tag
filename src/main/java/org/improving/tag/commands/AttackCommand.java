@@ -12,7 +12,7 @@ public class AttackCommand extends BaseAliasedCommand {
     private final Random r;
 
     public AttackCommand(InputOutput io, Random r) {
-        super("attack", "a", "at", "att", "atta", "attac","swing", "fight", "stab", "mock", "smack");
+        super(io, "attack", "a", "at", "att", "atta", "attac","swing", "fight", "stab", "mock", "smack");
         this.io = io;
         this.r = r;
     }

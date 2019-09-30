@@ -8,7 +8,7 @@ public abstract class BaseEmoteCommand extends BaseAliasedCommand {
     private InputOutput io;
 
     public BaseEmoteCommand(String cmdResponse, InputOutput io, String...aliases) {
-        super(aliases);
+        super(io, aliases);
         this.cmdResponse = cmdResponse;
         this.io = io;
     }
