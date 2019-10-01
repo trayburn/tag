@@ -1,5 +1,7 @@
 import org.improving.tag.InputOutput;
+import org.improving.tag.TreasureChest;
 import org.improving.tag.commands.DanceCommand;
+import org.improving.tag.items.UniqueItems;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -72,5 +74,11 @@ public class DanceCommandTests {
         assertFalse(result);
     }
 
+    @Test
+    void test() {
+        String a = "hi";
+        String b = new String("hi");
+        assertTrue(a == b);
+    }
 }
 

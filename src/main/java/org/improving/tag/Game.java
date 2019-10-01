@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.improving.tag.commands.Command;
+import org.improving.tag.items.UniqueItems;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -100,6 +101,7 @@ public class Game {
 
         var tmcs = new Location();
         tmcs.setName("The Mac and Cheese Shop");
+        tmcs.setTreasureChest(new TreasureChest(UniqueItems.THE_ONE_RING, "A Kraft box"));
         this.locationList.add(tmcs);
 
         var tr = new Location();
