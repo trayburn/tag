@@ -53,7 +53,9 @@ public class Location {
         if (TreasureChest.NO_TREASURE.equals(treasureChest)) {
             throw new UnsupportedOperationException();
         }
-        return treasureChest.getItem();
+        Item treasureItem = treasureChest.getItem();
+        treasureChest = TreasureChest.NO_TREASURE;
+        return treasureItem;
     }
 
     public TreasureChest getTreasureChest() {
