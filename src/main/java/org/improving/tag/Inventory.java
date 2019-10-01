@@ -19,7 +19,6 @@ public class Inventory {
     public String getInventoryDisplay() {
         String displayString = "You have these Items: ";
         for (Item item : items) {
-            //displayString = displayString + "\n" + item;
             displayString += "\n" + item;
         }
         return displayString;
