@@ -73,12 +73,5 @@ public class DanceCommandTests {
         // Assert
         assertFalse(result);
     }
-
-    @Test
-    void test() {
-        String a = "hi";
-        String b = new String("hi");
-        assertTrue(a == b);
-    }
 }
 

@@ -36,4 +36,19 @@ public class Exit {
     public List<String> getAliases() {
         return aliases;
     }
+
+    @Override
+    public String toString() {
+        return this.getName();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Exit) {
+            Exit exit = (Exit) obj;
+            return this.getName().equals(exit.getName()) &&
+                    this.getDestination().equals(exit.getDestination());
+        }
+        return super.equals(obj);
+    }
 }

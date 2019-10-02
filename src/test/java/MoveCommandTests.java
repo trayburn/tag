@@ -18,37 +18,9 @@ public class MoveCommandTests {
     }
 
     @Test
-    public void execute_should_display_all_words_but_move() {
-        // Act
-        target.execute("move to the moon", null);
-
-        // Assert
-        assertEquals("You proceed to the moon.", io.lastText);
-    }
-
-    @Test
-    public void execute_should_display_all_words_but_move_with_spaces() {
-        // Act
-        target.execute("     move to the moon     ", null);
-
-        // Assert
-        assertEquals("You proceed to the moon.", io.lastText);
-    }
-
-
-    @Test
     public void isValid_should_be_true_when_input_is_move() {
         // Act
         var result = target.isValid("move to the moon", null);
-
-        // Assert
-        assertTrue(result);
-    }
-
-    @Test
-    public void isValid_should_be_true_when_input_is_move_with_spaces() {
-        // Act
-        var result = target.isValid("      move to the moon     ", null);
 
         // Assert
         assertTrue(result);
