@@ -1,12 +1,12 @@
 package org.improving.tag;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.improving.tag.commands.Command;
 import org.improving.tag.items.UniqueItems;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Component
 public class Game {
@@ -90,6 +90,10 @@ public class Game {
         adv.setName("Sauron");
         adv.setHitPoints(300);
 
+        var koopa = new Adversary();
+        koopa.setName("Blue Koopa");
+        koopa.setHitPoints(20);
+        koopa.setItem(UniqueItems.BLUE_SHELL);
 
         var td = new Location();
         td.setName("The Dessert");
@@ -102,6 +106,7 @@ public class Game {
         var tmcs = new Location();
         tmcs.setName("The Mac and Cheese Shop");
         tmcs.setTreasureChest(new TreasureChest(UniqueItems.THE_ONE_RING, "A Kraft box"));
+        tmcs.setAdversary(koopa);
         this.locationList.add(tmcs);
 
         var tr = new Location();
