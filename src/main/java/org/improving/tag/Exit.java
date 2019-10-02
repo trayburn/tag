@@ -3,6 +3,7 @@ package org.improving.tag;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Exit {
     private String name;
@@ -40,6 +41,11 @@ public class Exit {
     @Override
     public String toString() {
         return this.getName();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, destination);
     }
 
     @Override
