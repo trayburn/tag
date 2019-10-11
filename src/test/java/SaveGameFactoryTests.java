@@ -12,6 +12,7 @@ import java.util.Map;
 import org.improving.tag.FileSystemAdapter;
 import org.improving.tag.Game;
 import org.improving.tag.SaveGameFactory;
+import org.improving.tag.WorldBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -28,7 +29,7 @@ public class SaveGameFactoryTests {
         io = new TestInputOutput();
         fsa = mock(FileSystemAdapter.class);
         target = new SaveGameFactory(fsa, io);
-        g = new Game(null, io, target);
+        g = new Game(null, io, target, new WorldBuilder());
     }
 
     @Test
