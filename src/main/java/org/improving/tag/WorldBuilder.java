@@ -1,5 +1,7 @@
 package org.improving.tag;
 
+import org.improving.tag.database.ExitsDAO;
+import org.improving.tag.database.LocationDAO;
 import org.improving.tag.items.UniqueItems;
 import org.springframework.stereotype.Component;
 
@@ -8,9 +10,38 @@ import java.util.List;
 
 @Component
 public class WorldBuilder {
-    private final List<Location> locationList = new ArrayList<>();
+    private List<Location> locationList = new ArrayList<>();
+
+    private final LocationDAO locationDAO;
+    private final ExitsDAO exitsDAO;
+
+    public WorldBuilder(LocationDAO locationDAO, ExitsDAO exitsDAO) {
+        this.locationDAO = locationDAO;
+        this.exitsDAO = exitsDAO;
+    }
 
     public Location buildWorld() {
+        try {
+            List<Location> locations = locationDAO.findAll();
+            for (Location location : locations) {
+                List<Exit> exits = exitsDAO.findByOriginId(location.getId());
+                exits.forEach(exit -> {
+                    Location destination = locations.stream()
+                            .filter(locat -> locat.getId() == exit.getDestinationId())
+                            .findFirst()
+                            .orElse(null);
+                    exit.setDestination(destination);
+                    location.addExit(exit);
+                });
+            }
+            locationList = locations;
+            return locationList.get(0);
+        } catch (Exception e) {
+            return buildHardCodedWorld();
+        }
+    }
+
+    public Location buildHardCodedWorld() {
         var tdh = new Location();
         tdh.setName("The Deathly Hallows");
         this.locationList.add(tdh);

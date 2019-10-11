@@ -8,6 +8,8 @@ import java.util.Objects;
 public class Exit {
     private String name;
     private Location destination;
+    private int destinationId;
+
     private List<String> aliases = new ArrayList<>();
 
     public Exit() { }
@@ -34,8 +36,20 @@ public class Exit {
         this.destination = destination;
     }
 
+    public int getDestinationId() {
+        return destinationId;
+    }
+
+    public void setDestinationId(int destinationId) {
+        this.destinationId = destinationId;
+    }
+
     public List<String> getAliases() {
         return aliases;
+    }
+
+    public void addAlias(String alias) {
+        this.aliases.add(alias);
     }
 
     @Override
