@@ -30,8 +30,7 @@ public class LocationDAO {
                         location.setId(result.getInt("LocId"));
                         location.setName(result.getString("LocName"));
                         location.setDescription(result.getString("Description"));
-                        Integer adversaryId = result.getInt("AdversaryId");
-                        if (adversaryId != null) {
+                        if (result.getString("AdversaryId") != null) {
                             Adversary adversary = new Adversary();
                             adversary.setName(result.getString("AdvName"));
                             adversary.setHitPoints(result.getInt("HitPoints"));
