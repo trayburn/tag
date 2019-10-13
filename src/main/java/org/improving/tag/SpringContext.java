@@ -29,8 +29,9 @@ public class SpringContext {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/tag?serverTimezone=UTC");
-        dataSource.setUsername("zacharylocal");
+        dataSource.setUsername("dr_j");
         dataSource.setPassword("supertopsecretpassw0rd");
+        
         return dataSource;
     }
 

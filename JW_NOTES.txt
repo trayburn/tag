@@ -1,0 +1,38 @@
+########################
+Had to install mysql ...
+
+start mysql via 'sudo systemctl start mysql'
+
+to start on a reboot: `sudo systemctl enable mysql`
+
+After installing, reset the root password for mysql via https://devanswers.co/how-to-reset-mysql-root-password-ubuntu/
+I set it to "password"
+
+Set our user (dr_j) with a password (supertopsecretpassw0rd) via
+https://www.a2hosting.com/kb/developer-corner/mysql/managing-mysql-databases-and-users-from-the-command-line
+#########################
+
+Had to modify pom, adding source and target levels (so not just release):
+
+    <properties>
+        <maven.compiler.release>11</maven.compiler.release>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+
+Otherwise, the openjdk from amazon wouldn't work (or maybe it's my version of maven?)
+
+#########################
+
+Modified the TagWorldCreate.sql, adding "IF EXISTS" to delete tables initially.
+Otherwise, rerunning the the entire script wouldn't work (would fail if the tables didn't exist)
+
+#########################
+
+SpringContext.java --- had to add my username and password.
+
+#########################
+
+Added some entries to .gitignore so I don't commit Eclipse files.
+
+
