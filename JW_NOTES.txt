@@ -35,4 +35,8 @@ SpringContext.java --- had to add my username and password.
 
 Added some entries to .gitignore so I don't commit Eclipse files.
 
+#########################
+
+And, after some stumbling, having Eclipse not able to push or pull, I realized I had to add github.com to my ~/.ssh/config file. 8^)
+
 
