@@ -23,6 +23,7 @@ public class WorldBuilder {
     public Location buildWorld() {
         try {
             List<Location> locations = locationDAO.findAll();
+            System.out.println("Building via db");
             for (Location location : locations) {
                 List<Exit> exits = exitsDAO.findByOriginId(location.getId());
                 exits.forEach(exit -> {
@@ -35,8 +36,9 @@ public class WorldBuilder {
                 });
             }
             locationList = locations;
-            return locationList.get(0);
+            return locationList.get(2); // Used to be 0 but I don't want Mount Doom. <-- hack!
         } catch (Exception e) {
+        	e.printStackTrace();
             return buildHardCodedWorld();
         }
     }

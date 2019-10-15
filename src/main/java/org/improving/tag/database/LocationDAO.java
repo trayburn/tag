@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 @Component
 public class LocationDAO {
 
@@ -30,26 +32,19 @@ public class LocationDAO {
                         location.setId(result.getInt("LocId"));
                         location.setName(result.getString("LocName"));
                         location.setDescription(result.getString("Description"));
+                        
                         if (result.getString("AdversaryId") != null) {
-                            Adversary adversary = new Adversary();
-                            adversary.setName(result.getString("AdvName"));
-                            adversary.setHitPoints(result.getInt("HitPoints"));
-                            adversary.setDamageTaken(result.getInt("DamageTaken"));
-                            String dropItem = result.getString("DropItem");
-                            if (null != dropItem) {
-                                adversary.setItem(Arrays
-                                        .stream(UniqueItems.values())
-                                        .filter(item -> item.getName().equals(dropItem))
-                                        .findFirst()
-                                        .orElse(null)
-                                );
-                            }
+                        	EntityManager em = JPAUtility.getEntityManager();
+                        	Adversary adversary = em.find( Adversary.class, Long.parseLong(result.getString("AdversaryId") ));
+                        	
                             location.setAdversary(adversary);
+                            System.out.println("Set adversary " + adversary.getName() + " to location " + location.getName() );
                         }
                         return location;
                     });
             return locations;
         } catch (DataAccessException e) {
+        	e.printStackTrace();
             System.out.println("Exception in JDBC: " + e.getMessage());
             return null;
         }

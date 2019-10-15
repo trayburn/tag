@@ -40,3 +40,70 @@ Added some entries to .gitignore so I don't commit Eclipse files.
 And, after some stumbling, having Eclipse not able to push or pull, I realized I had to add github.com to my ~/.ssh/config file. 8^)
 
 
+
+
+
+pom.xml changes ...
+
+persistence.xml <--- configures hibernate, lists all the persistent entities
+
+JPAUtility.java <--- get the entity manager for our "persistence unit"
+
+Adversary.java
+    -- Add @Entity (get the table name correct)
+    -- Add @Id
+    -- define all columns (note dropItemName is DropItem in the table)
+ 
+    -- @Transient on dropItem field
+    
+    -- add a @PostLoad to set the dropItem based on the Uniqueitems
+    --- basically moving functionality from the LocationDAO
+
+    @PostLoad 
+    protected void postLoad() {
+            if (null != dropItemName) {
+                setItem(Arrays
+                        .stream(UniqueItems.values())
+                        .filter(item -> item.getName().equals(dropItemName))
+                        .findFirst()
+                        .orElse(null)
+                );
+            }
+    }
+ 
+LocationDao.java
+
+Tweak query to not return all adversary info.
+Instead:
+
+                                EntityManager em = JPAUtility.getEntityManager();
+                                Adversary adversary = em.find( Adversary.class, result.getLong( "AdversaryId" ) );
+                            location.setAdversary(adversary);
+                            System.out.println("Set adversary " + adversary.getName() + " to location " + location.getName() );
+
+Just get the adversary and set it.
+
+
+
+LATER:
+
+Code in Adversary.java about mapping to a dropItemName could be done by persisting the enum in the database.
+
+
+
+DAY 2:
+
+#1 Why doesn't JPAUtility work.
+
+Making Exits & Location persistent.
+Join Tables (@JoinTable)
+@ManyToMany
+@OneToMany
+@ManyToOne
+
+Transactions
+Lazy Loading
+
+Day 3 - Spring-JPA
+
+Convert everything to Spring-JPA (i.e., get rid of DAO's and use Repositories).
