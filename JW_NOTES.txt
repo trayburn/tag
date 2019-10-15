@@ -92,7 +92,7 @@ Code in Adversary.java about mapping to a dropItemName could be done by persisti
 
 DAY 2:
 
-#1 Why doesn't JPAUtility work -- wonky IntelliJ; deleting class and readding and it worked.
+#1 Why doesn't JPAUtility work -- wonky IntelliJ; deleting class and re-adding and it worked.
 
 Making Location persistent:
 
@@ -124,7 +124,44 @@ EXERCISE 1:  Make Location persistent via JPA ... and set the exits the way they
   Note that we can be lazy about transactions .... for now ... and not
   start/end transactions, and not close the entityManager.
   
+Next step:
+
+  Take Location .... and wire it to the Adversary instead of having the id
+  and having us do the wiring.
   
+  One Location can have One Adversary.
+  But can the same Adversary appear in many Locations?
+  
+  @ManyToOne
+  
+  Easy changes ....
+    Annotate adversary in Location.java as
+
+	@ManyToOne( fetch = FetchType.EAGER )
+	@JoinColumn( name="AdversaryId" )
+    private Adversary adversary;
+
+  Why eager? Because we're going to use these objects outside of a transaction, so
+  we want them fully resolved.
+
+  LocationDAO.java ... we can just remove the wiring of Adversaries to the locations.
+
+  Lastly .... Exit. This one is interesting as it's a bidirectional relationship.
+  Locations have many exits ... and the exit points to the Location it leads to.
+  This is a One to Many relationship ... 
+    One Location has Many Exits.
+    An Exit exists in only One Location.
+    
+  So in Location, we have a @OneToMany relationship... and on the other side, we have @ManyToOne
+  to make it bidrections.
+  
+  Note that we no longer need ExistsDAO at all.
+  
+  And ... all references to JDBC are gone.
+  
+
+
+
 
 Making Exits & Location persistent.
 Join Tables (@JoinTable)

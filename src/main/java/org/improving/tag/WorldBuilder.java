@@ -1,40 +1,26 @@
 package org.improving.tag;
 
-import org.improving.tag.database.ExitsDAO;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.improving.tag.database.LocationDAO;
 import org.improving.tag.items.UniqueItems;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class WorldBuilder {
     private List<Location> locationList = new ArrayList<>();
 
     private final LocationDAO locationDAO;
-    private final ExitsDAO exitsDAO;
 
-    public WorldBuilder(LocationDAO locationDAO, ExitsDAO exitsDAO) {
+    public WorldBuilder(LocationDAO locationDAO) {
         this.locationDAO = locationDAO;
-        this.exitsDAO = exitsDAO;
     }
 
     public Location buildWorld() {
         try {
             List<Location> locations = locationDAO.findAll();
-            System.out.println("Building via db");
-            for (Location location : locations) {
-                List<Exit> exits = exitsDAO.findByOriginId(location.getId());
-                exits.forEach(exit -> {
-                    Location destination = locations.stream()
-                            .filter(locat -> locat.getId() == exit.getDestinationId())
-                            .findFirst()
-                            .orElse(null);
-                    exit.setDestination(destination);
-                    location.addExit(exit);
-                });
-            }
+            System.out.println("Loaded " + locations.size() + " locations." );
             locationList = locations;
             return locationList.get(2); // Used to be 0 but I don't want Mount Doom. <-- hack!
         } catch (Exception e) {

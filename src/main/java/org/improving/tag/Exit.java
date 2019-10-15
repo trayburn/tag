@@ -5,11 +5,37 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class Exit {
-    private String name;
-    private Location destination;
-    private int destinationId;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PostLoad;
+import javax.persistence.Transient;
 
+@Entity( name="exits" )
+public class Exit {
+	
+	@Id
+	private long id;
+	
+	@Column( name="Name" )
+    private String name;
+	
+	@ManyToOne
+	@JoinColumn( name="DestinationId", nullable=false )
+    private Location destination;
+	
+    // Have to add for the bidirectional nature of this relationship
+	// In general, @OneToMany has a @ManyToOne on the other end (most times)
+    @ManyToOne
+    @JoinColumn( name="OriginId", nullable=false)
+    private Location origin;
+
+    @Column( name="Aliases")
+    private String csvOfAliases;
+    
+    @Transient
     private List<String> aliases = new ArrayList<>();
 
     public Exit() { }
@@ -34,14 +60,6 @@ public class Exit {
 
     public void setDestination(Location destination) {
         this.destination = destination;
-    }
-
-    public int getDestinationId() {
-        return destinationId;
-    }
-
-    public void setDestinationId(int destinationId) {
-        this.destinationId = destinationId;
     }
 
     public List<String> getAliases() {
@@ -71,4 +89,12 @@ public class Exit {
         }
         return super.equals(obj);
     }
+    
+    @PostLoad
+	public void postLoad() {
+		if (null != csvOfAliases) {
+			Arrays.stream(csvOfAliases.replace(" ", "").split(","))
+				.forEach(alias -> this.addAlias(alias));
+		}
+	}
 }

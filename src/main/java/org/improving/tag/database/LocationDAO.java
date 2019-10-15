@@ -4,9 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.improving.tag.Adversary;
 import org.improving.tag.Location;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,21 +18,20 @@ public class LocationDAO {
         	EntityManager em = JPAUtility.getEntityManager();
 //        	em.getTransaction().begin();
             List<Location> locations = em.createQuery( "SELECT loc FROM org.improving.tag.Location loc" ).getResultList();
-            
+
+            // For debugging only.
             for (Location location : locations) {
-                if (location.getAdversaryId() != null) {
-                	Adversary adversary = em.find( Adversary.class, location.getAdversaryId() );
-                    location.setAdversary(adversary);
-                    System.out.println("Set adversary " + adversary.getName() + " to location " + location.getName() );
-                }
-			}
+            	if( location.getAdversary() != null ) {
+            		System.out.println(" Location " + location.getName() + " has an adversary");
+            	}
+            }
 //            em.getTransaction().commit();
 //            em.close();
             
             return locations;
-        } catch (DataAccessException e) {
+        } catch (Exception e) {
         	e.printStackTrace();
-            System.out.println("Exception in JDBC: " + e.getMessage());
+            System.out.println("Exception in loading locations: " + e.getMessage());
             return null;
         }
     }

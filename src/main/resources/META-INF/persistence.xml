@@ -8,6 +8,7 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <class>org.improving.tag.Adversary</class> 
         <class>org.improving.tag.Location</class> 
+        <class>org.improving.tag.Exit</class> 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/> <!-- create or validate the database schema -->

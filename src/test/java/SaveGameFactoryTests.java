@@ -29,7 +29,7 @@ public class SaveGameFactoryTests {
         io = new TestInputOutput();
         fsa = mock(FileSystemAdapter.class);
         target = new SaveGameFactory(fsa, io);
-        g = new Game(null, io, target, new WorldBuilder(null, null));
+        g = new Game(null, io, target, new WorldBuilder(null));
     }
 
     @Test

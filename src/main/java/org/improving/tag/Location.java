@@ -7,7 +7,11 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 @Entity( name="location" )
@@ -22,13 +26,11 @@ public class Location {
 	@Column(name="Description")
     private String description = "";
 
-	@Column(name="AdversaryId")
-	private Long adversaryId;
-	
-	@Transient
+	@ManyToOne( fetch = FetchType.EAGER )
+	@JoinColumn( name="AdversaryId" )
     private Adversary adversary;
 
-    @Transient
+    @OneToMany( mappedBy = "origin" )
     private List<Exit> exits = new ArrayList<>();
     
     @Transient
@@ -90,13 +92,5 @@ public class Location {
     public TreasureChest getTreasureChest() {
         return treasureChest;
     }
-
-    public Long getAdversaryId() {
-		return adversaryId;
-	}
-
-	public void setAdversaryId(long adversaryId) {
-		this.adversaryId = adversaryId;
-	}
 }
 
