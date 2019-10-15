@@ -90,10 +90,41 @@ LATER:
 Code in Adversary.java about mapping to a dropItemName could be done by persisting the enum in the database.
 
 
-
 DAY 2:
 
-#1 Why doesn't JPAUtility work.
+#1 Why doesn't JPAUtility work -- wonky IntelliJ; deleting class and readding and it worked.
+
+Making Location persistent:
+
+Start with Location ....
+In the database, Location only has id, Name, Description, and AdversaryId.
+In the existing code, the locations are read .... and then the exits are set.
+
+Let's keep with that for now.
+
+EXERCISE 1:  Make Location persistent via JPA ... and set the exits the way they are now.
+  And keep Adversary set the way it is now.
+  Basically doing the joins in Java.
+  So set adversary, exits to be @Transient
+  In my code, the Location.treasureChest is only set in the manually built world ... so make that @Transient too
+  
+  I am removing "getTags" and the "tags" attribute, as it isn't used.
+  
+  SQL in the entityManager.createQuery is NOT standard SQL --- it's a JPA query language
+     a lot like SQL, but you reference Java objects ....
+       JPQL <--- Java Persistence Query Language. https://thoughts-on-java.org/jpql/
+       
+     So to select all objects of type Location ....
+       em.createQuery( "SELECT loc FROM org.improving.tag.Location loc" ).getResultList().
+     Note the reference to the Location class in the "FROM" with the full path.
+     Note this query returns List<Location> ...
+     
+  Only changes are in Location, LocationDAO, persistenceXML.
+  
+  Note that we can be lazy about transactions .... for now ... and not
+  start/end transactions, and not close the entityManager.
+  
+  
 
 Making Exits & Location persistent.
 Join Tables (@JoinTable)

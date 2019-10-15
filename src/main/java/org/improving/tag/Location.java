@@ -5,14 +5,33 @@ import org.improving.tag.items.Item;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
+@Entity( name="location" )
 public class Location {
 
+	@Id
     private int id;
+	
+	@Column(name="Name")
     private String name = "";
+	
+	@Column(name="Description")
     private String description = "";
-    private List<String> tags = new ArrayList<>();
-    private List<Exit> exits = new ArrayList<>();
+
+	@Column(name="AdversaryId")
+	private Long adversaryId;
+	
+	@Transient
     private Adversary adversary;
+
+    @Transient
+    private List<Exit> exits = new ArrayList<>();
+    
+    @Transient
     private TreasureChest treasureChest = TreasureChest.NO_TREASURE;
 
     public int getId() {
@@ -47,10 +66,6 @@ public class Location {
         this.description = description;
     }
 
-    public List<String> getTags() {
-        return tags;
-    }
-
     public List<Exit> getExits() {
         return exits;
     }
@@ -75,5 +90,13 @@ public class Location {
     public TreasureChest getTreasureChest() {
         return treasureChest;
     }
+
+    public Long getAdversaryId() {
+		return adversaryId;
+	}
+
+	public void setAdversaryId(long adversaryId) {
+		this.adversaryId = adversaryId;
+	}
 }
 
