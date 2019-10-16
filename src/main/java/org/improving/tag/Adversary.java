@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.PostLoad;
 import javax.persistence.Transient;
@@ -29,10 +31,7 @@ public class Adversary {
     private int attackDamage;
 	
 	@Column( name = "DropItem" )
-	private String dropItemDb;
-	
-	@Transient
-    private Item dropItem = UniqueItems.NOTHING;
+    private UniqueItems dropItem = UniqueItems.NOTHING;
 
     public String getName() {
         return name;
@@ -66,7 +65,7 @@ public class Adversary {
         this.attackDamage = attackDamage;
     }
 
-    public void setItem(Item dropItem) {
+    public void setItem(UniqueItems dropItem) {
         this.dropItem = dropItem;
     }
 
@@ -74,23 +73,8 @@ public class Adversary {
         return dropItem;
     }
     
-    public String getDropItemDb() {
-    	return dropItemDb;
-    }
-    
-    public void setDropItemDb( String dropItemDb ) {
-    	this.dropItemDb = dropItemDb;
-    }
-    
     @PostLoad
     public void postLoad() {
-        if (null != dropItemDb) {
-            this.setItem(Arrays
-                    .stream(UniqueItems.values())
-                    .filter(item -> item.getName().equals(dropItemDb))
-                    .findFirst()
-                    .orElse(null)
-            );
-        }
+    	System.out.println("loaded dropItem = " + dropItem );
     }
 }
