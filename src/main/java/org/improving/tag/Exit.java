@@ -5,34 +5,46 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PostLoad;
+import javax.persistence.PrePersist;
 import javax.persistence.Transient;
 
 @Entity( name="exits" )
 public class Exit {
 	
 	@Id
+	@GeneratedValue
 	private long id;
 	
 	@Column( name="Name" )
     private String name;
 	
 	@ManyToOne
-	@JoinColumn( name="DestinationId", nullable=false )
+	@JoinColumn( name="DestinationId" )
     private Location destination;
 	
     // Have to add for the bidirectional nature of this relationship
 	// In general, @OneToMany has a @ManyToOne on the other end (most times)
     @ManyToOne
-    @JoinColumn( name="OriginId", nullable=false)
+    @JoinColumn( name="OriginId" )
     private Location origin;
 
-    @Column( name="Aliases")
+    public Location getOrigin() {
+		return origin;
+	}
+
+	public void setOrigin(Location origin) {
+		this.origin = origin;
+	}
+
+	@Column( name="Aliases")
     private String csvOfAliases;
     
     @Transient
@@ -40,8 +52,9 @@ public class Exit {
 
     public Exit() { }
 
-    public Exit(String name, Location destination, String...aliases) {
+    public Exit(String name, Location origin, Location destination, String...aliases) {
         this.name = name;
+        this.origin = origin;
         this.destination = destination;
         this.aliases.addAll(Arrays.asList(aliases));
     }
@@ -97,4 +110,13 @@ public class Exit {
 				.forEach(alias -> this.addAlias(alias));
 		}
 	}
+    
+    @PrePersist
+    public void prePersist() {
+    	if( aliases.isEmpty() ) {
+    		csvOfAliases = "";
+    	} else {
+    		csvOfAliases = String.join( ",", aliases );
+    	}
+    }
 }

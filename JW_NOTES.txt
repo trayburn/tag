@@ -175,3 +175,58 @@ Lazy Loading
 Day 3 - Spring-JPA
 
 Convert everything to Spring-JPA (i.e., get rid of DAO's and use Repositories).
+
+
+
+
+
+Review.
+  * How much JDBC code is left
+  * Mappings @OneToOne, @ManyToOne, @OneToMany, @ManyToMany
+  
+How to handle enums (get rid of Adversary drop item?)
+
+entityManager createNamedQuery ....
+
+Saving data (load the table)
+
+Other database tables ...
+Treasure Chest
+Items
+
+Start Spring-JPA (i.e., no more dao's?).
+
+
+Review:
+  * how much jdbc code left
+      Search your codebase ... do you have any reference to jdbc other than persistence.xml (setting properties)?
+      You should be able to remove the spring-jdbc dependency from pom.xml
+      
+  * Review @OneToOne, @ManyToOne, @OneToMany, @ManyToMany
+  
+Enums:
+   Really last thing in Adversary.java that we are handling in the @PostLoad --- we would like to persist the enum
+   and not have to map it ourselves.
+   
+
+   
+   
+   
+   
+   
+   Interactive notes....
+   
+   created new schema in the database (orm)
+   updated persistence.xml connection url to use the new schema.
+   
+   New project ... stole JPAUtility & SpringContext for time.
+   Using the same "persistence-unit" (com.improving) as before -- we're in a new project, so no worries about conflicts.
+   
+   
+   
+   Last Day:
+   
+   Cascade
+   Spring-JPA
+   
+   

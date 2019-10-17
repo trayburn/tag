@@ -19,6 +19,8 @@ public class Game {
     private final SaveGameFactory saveFactory;
     private final List<Location> locationList;
 
+    private final WorldBuilder worldBuilder;
+    
     public Game(Command[] commands, InputOutput io,
             SaveGameFactory saveFactory, WorldBuilder worldBuilder) {
         startingLocation = worldBuilder.buildWorld();
@@ -27,6 +29,7 @@ public class Game {
         this.io = io;
         this.p = new Player(startingLocation);
         this.saveFactory = saveFactory;
+        this.worldBuilder = worldBuilder;
     }
 
     public Location getStartingLocation() {
@@ -56,21 +59,29 @@ public class Game {
     public void run() {
         this.setStartTime(new Date());
 
-        boolean loop = true;
-        while (loop) {
-            try {
-                io.displayPrompt("> ");
-                String input = io.receiveInput();
+        io.displayPrompt("Run(1) or rebuild database (2) > ");
+        String input = io.receiveInput();
 
-                Command validCommand = getValidCommand(input);
-                if (null != validCommand) {
-                    validCommand.execute(input, this);
-                } else {
-                    io.displayText("Huh? I don't understand.");
-                }
-            } catch (GameExitException ex) {
-                loop = false;
-            }
+        if( "1".equals( input ) ) {
+	        boolean loop = true;
+	        while (loop) {
+	            try {
+	                io.displayPrompt("> ");
+	                input = io.receiveInput();
+	
+	                Command validCommand = getValidCommand(input);
+	                if (null != validCommand) {
+	                    validCommand.execute(input, this);
+	                } else {
+	                    io.displayText("Huh? I don't understand.");
+	                }
+	            } catch (GameExitException ex) {
+	                loop = false;
+	            }
+	        }
+        } else if( "2".equals( input ) ) {
+        	worldBuilder.buildHardCodedWorld();
+        	System.exit(1);
         }
         this.setEndTime(new Date());
     }
