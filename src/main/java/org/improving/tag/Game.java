@@ -59,15 +59,15 @@ public class Game {
     public void run() {
         this.setStartTime(new Date());
 
-        io.displayPrompt("Run(1) or rebuild database (2) > ");
-        String input = io.receiveInput();
+//        io.displayPrompt("Run(1) or rebuild database (2) > ");
+//        String input = io.receiveInput();
 
-        if( "1".equals( input ) ) {
+//        if( "1".equals( input ) ) {
 	        boolean loop = true;
 	        while (loop) {
 	            try {
 	                io.displayPrompt("> ");
-	                input = io.receiveInput();
+	                String input = io.receiveInput();
 	
 	                Command validCommand = getValidCommand(input);
 	                if (null != validCommand) {
@@ -79,10 +79,11 @@ public class Game {
 	                loop = false;
 	            }
 	        }
-        } else if( "2".equals( input ) ) {
-        	worldBuilder.buildHardCodedWorld();
-        	System.exit(1);
-        }
+//        } else if( "2".equals( input ) ) {
+//        	worldBuilder.deleteDatabaseWorld();
+//        	worldBuilder.buildDatabaseWorld();
+//        	System.exit(1);
+//        }
         this.setEndTime(new Date());
     }
 

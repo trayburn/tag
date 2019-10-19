@@ -8,6 +8,7 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -26,13 +27,13 @@ public class Exit {
 	@Column( name="Name" )
     private String name;
 	
-	@ManyToOne
+	@ManyToOne( fetch = FetchType.EAGER )
 	@JoinColumn( name="DestinationId" )
     private Location destination;
 	
     // Have to add for the bidirectional nature of this relationship
 	// In general, @OneToMany has a @ManyToOne on the other end (most times)
-    @ManyToOne
+    @ManyToOne( fetch = FetchType.EAGER )
     @JoinColumn( name="OriginId" )
     private Location origin;
 

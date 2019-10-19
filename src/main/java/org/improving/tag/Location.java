@@ -33,7 +33,7 @@ public class Location {
 	@JoinColumn( name="AdversaryId" )
     private Adversary adversary;
 
-    @OneToMany( mappedBy = "origin", cascade = CascadeType.PERSIST )
+    @OneToMany( mappedBy = "origin", fetch = FetchType.EAGER )
     private List<Exit> exits = new ArrayList<>();
     
     @Transient

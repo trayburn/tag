@@ -3,26 +3,33 @@ package org.improving.tag;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
-import org.improving.tag.database.JPAUtility;
-import org.improving.tag.database.LocationDAO;
+import org.improving.tag.database.AdversaryRepository;
+import org.improving.tag.database.ExitRepository;
+import org.improving.tag.database.LocationRepository;
 import org.improving.tag.items.UniqueItems;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class WorldBuilder {
     private List<Location> locationList = new ArrayList<>();
 
-    private final LocationDAO locationDAO;
+    private final LocationRepository locationRepository;
+    private final ExitRepository exitRepository;
+    private final AdversaryRepository adversaryRepository;
 
-    public WorldBuilder(LocationDAO locationDAO) {
-        this.locationDAO = locationDAO;
+    public WorldBuilder( LocationRepository locationRepository,
+    					 ExitRepository exitRepository,
+    					 AdversaryRepository adversaryRepository ) {
+        this.locationRepository = locationRepository;
+        this.exitRepository = exitRepository;
+        this.adversaryRepository = adversaryRepository;
     }
 
     public Location buildWorld() {
         try {
-        	locationList = locationDAO.findAll();
+        	locationList = locationRepository.findAll();
+        	
             System.out.println("Loaded " + locationList.size() + " locations." );
             
             Location start = locationList.stream().filter( loc -> "The Deathly Hallows".equalsIgnoreCase(loc.getName()) ).findFirst().get();
@@ -33,33 +40,39 @@ public class WorldBuilder {
         }
     }
 
-    public void buildHardCodedWorld() {
-    	EntityManager em = JPAUtility.getEntityManager();
-    	em.getTransaction().begin();
+    @Transactional
+    public void deleteDatabaseWorld() {
 
-    	List<Location> locations = em.createQuery( "select loc from org.improving.tag.Location loc" ).getResultList();
-    	List<Exit> exits = em.createQuery( "select ex from org.improving.tag.Exit ex" ).getResultList();
-    	List<Adversary> adversaries = em.createQuery( "select ad from org.improving.tag.Adversary ad" ).getResultList();
+//    	List<Location> locations = locationRepository.findAll();
+//    	List<Exit> exits = exitRepository.findAll();
+//    	List<Adversary> adversaries = adversaryRepository.findAll();
+//    	
+//    	System.out.println("Removing locations");
+//    	for( Location location: locations ) {
+//    		locationRepository.delete( location );
+//    	}
+//
+//    	System.out.println("Removing exits");
+//    	for( Exit exit: exits ) {
+//    		exitRepository.delete( exit );
+//    	}
+//    	
+//    	System.out.println("Removing adversaries");
+//    	for( Adversary adversary : adversaries ) {
+//    		adversaryRepository.delete( adversary );
+//    	}
+
+    	// easiest
+    	exitRepository.deleteAll();
+    	locationRepository.deleteAll();
+    	adversaryRepository.deleteAll();
     	
-    	System.out.println("Removing locations");
-    	for( Location location: locations ) {
-    		em.remove( location );
-    	}
-
-    	System.out.println("Removing exits");
-    	for( Exit exit: exits ) {
-    		em.remove( exit );
-    	}
-    	
-    	System.out.println("Removing adversaries");
-    	for( Adversary adversary : adversaries ) {
-    		em.remove( adversary );
-    	}
-
-    	em.getTransaction().commit();
     	System.out.println("Done removing.");
+    }
 
-    	em.getTransaction().begin();
+    @Transactional
+    public void buildDatabaseWorld() {
+    	System.out.println("Starting build.");
     	
         var tdh = new Location();
         tdh.setName("The Deathly Hallows");
@@ -157,22 +170,20 @@ public class WorldBuilder {
         tvm.getExits().add(new Exit("The Front Door", tvm, ta, "TFD", "F", "D", "FD", "front", "door"));
         tvm.getExits().add(new Exit("The Pudding Slide", tvm, tap, "TPS", "P", "S", "PS", "Pudding", "Slide"));
 
-        em.persist( tdh );
-        em.persist( adv );
-        em.persist( koopa );
-        em.persist( td );
-        em.persist( ta );
-        em.persist( tmcs );
-        em.persist( tr );
-        em.persist( tm );
-        em.persist( tvm );
-        em.persist( md );
-		em.persist(tvd);
-		em.persist(tap);
-		em.persist(aict);
-		em.persist(tms);
-        
-        em.getTransaction().commit();
+        locationRepository.save( tdh );
+        adversaryRepository.save( adv );
+        adversaryRepository.save( koopa );
+        locationRepository.save( td );
+        locationRepository.save( ta );
+        locationRepository.save( tmcs );
+        locationRepository.save( tr );
+        locationRepository.save( tm );
+        locationRepository.save( tvm );
+        locationRepository.save( md );
+		locationRepository.save(tvd);
+		locationRepository.save(tap);
+		locationRepository.save(aict);
+		locationRepository.save(tms);
         
         System.out.println( " ** Done with database reload." );
     }
